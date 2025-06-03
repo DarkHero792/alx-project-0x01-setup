@@ -1,8 +1,6 @@
-export interface PillProps {
-  title: string
-}
-
-export interface ButtonProps {
+export interface PostProps {
+  userId: number;
+  id: number;
   title: string;
-  styles: string;
+  body: string;
 }
