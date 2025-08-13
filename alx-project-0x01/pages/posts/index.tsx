@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Header from "@/components/layout/Header";
 import PostCard from "@/components/common/PostCard";
-import UserModal from "@/components/common/UserModal";
-import { PostProps } from "@/interfaces";
+import PostModal from "@/components/common/PostModal";
+import { PostProps, PostData } from "@/interfaces";
 
 interface PostsPageProps {
   posts: PostProps[];
@@ -10,9 +10,10 @@ interface PostsPageProps {
 
 const Posts: React.FC<PostsPageProps> = ({ posts }) => {
   const [isModalOpen, setModalOpen] = useState(false);
+  const [post, setPost] = useState<PostData | null>(null);
   const [postsList, setPostsList] = useState<PostProps[]>(posts);
 
-  const handleAddPost = (newPost: Omit<PostProps, "id">) => {
+  const handleAddPost = (newPost: PostData) => {
     const newPostWithId = {
       ...newPost,
       id: postsList.length + 1,
@@ -35,13 +36,16 @@ const Posts: React.FC<PostsPageProps> = ({ posts }) => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {postsList.map((post, index) => (
-            <PostCard key={index} {...post} />
+          {postsList.map((postItem, index) => (
+            <PostCard key={index} {...postItem} />
           ))}
         </div>
 
         {isModalOpen && (
-          <UserModal onClose={() => setModalOpen(false)} onSubmit={handleAddPost} />
+          <PostModal
+            onClose={() => setModalOpen(false)}
+            onSubmit={handleAddPost}
+          />
         )}
       </main>
     </div>
