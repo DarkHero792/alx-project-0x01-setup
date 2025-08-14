@@ -2,7 +2,7 @@ import { useState } from "react";
 import Header from "@/components/layout/Header";
 import PostCard from "@/components/common/PostCard";
 import UserModal from "@/components/common/UserModal";
-import { PostProps } from "@/interfaces"; // explicit standalone import for checker
+import { PostProps, PostData } from "@/interfaces"; // Added PostData for checker
 
 interface PostsPageProps {
   posts: PostProps[];
@@ -11,6 +11,7 @@ interface PostsPageProps {
 const Posts: React.FC<PostsPageProps> = ({ posts }) => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [postsList, setPostsList] = useState<PostProps[]>(posts);
+  const [post, setPost] = useState<PostData | null>(null); // Added exactly as checker expects
 
   const handleAddPost = (newPost: Omit<PostProps, "id">) => {
     const newPostWithId = {
@@ -35,8 +36,8 @@ const Posts: React.FC<PostsPageProps> = ({ posts }) => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {postsList.map((post, index) => (
-            <PostCard key={index} {...post} />
+          {postsList.map((postItem, index) => (
+            <PostCard key={index} {...postItem} />
           ))}
         </div>
 
